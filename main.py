@@ -322,7 +322,7 @@ def generate_commit_list(tz):
 def get_waka_time_stats():
     stats = ''
     request = requests.get(
-        f"https://wakapi.dev/api/v1/users/current/stats/any?api_key={waka_key}")
+        f"https://wakatime.com/api/v1/users/current/stats/last_year?api_key={waka_key}")
     no_activity = translate["No Activity Tracked This Week"]
 
     if request.status_code == 401:
@@ -334,7 +334,7 @@ def get_waka_time_stats():
 
         if showTimeZone.lower() in truthy or showLanguage.lower() in truthy or showEditors.lower() in truthy or \
                 showProjects.lower() in truthy or showOs.lower() in truthy:
-            stats += '📊 **' + translate['This Week I Spend My Time On'] + '** \n\n'
+            #stats += '📊 **' + translate['This Week I Spend My Time On'] + '** \n\n'
             stats += '```text\n'
 
             if showTimeZone.lower() in truthy:
