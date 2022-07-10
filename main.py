@@ -197,8 +197,7 @@ def make_list(data: list):
     data_list = []
     for l in data[:5]:
         ln = len(l['name'])
-        ln_text = len(l['text'])
-        op = f"{l['name'][:25]}{' ' * (25 - ln)}{l['text']}{' ' * (20 - ln_text)}{make_graph(l['percent'])}   {l['percent']}%"
+        op = f"{l['name'][:25]}{' ' * (32 - ln)}{make_graph(l['percent'])}   {l['percent']}%"
         data_list.append(op)
     return ' \n'.join(data_list)
 
@@ -370,7 +369,7 @@ def get_waka_time_stats():
                     os_list = no_activity
                 else:
                     os_list = make_list(data['data']['operating_systems'])
-                stats = stats + '💻 ' + translate['operating system'] + ': \n' + os_list + '\n\n'
+                stats = stats + '💻 ' + translate['operating system'] + ': \n' + os_list
 
             stats += '```\n\n'
 
