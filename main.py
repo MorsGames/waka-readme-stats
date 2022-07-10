@@ -278,13 +278,13 @@ def generate_commit_list(tz):
     sumAll = morning + daytime + evening + night
     sum_week = Sunday + Monday + Tuesday + Friday + Saturday + Wednesday + Thursday
     one_day = [
-        {"name": "🌞 " + translate['Morning'], "text": str(morning) + " commits",
+        {"name": translate['Morning'], "text": str(morning) + " commits",
          "percent": round((morning / sumAll) * 100, 2)},
-        {"name": "🌆 " + translate['Daytime'], "text": str(daytime) + " commits",
+        {"name": translate['Daytime'], "text": str(daytime) + " commits",
          "percent": round((daytime / sumAll) * 100, 2)},
-        {"name": "🌃 " + translate['Evening'], "text": str(evening) + " commits",
+        {"name": translate['Evening'], "text": str(evening) + " commits",
          "percent": round((evening / sumAll) * 100, 2)},
-        {"name": "🌙 " + translate['Night'], "text": str(night) + " commits",
+        {"name": translate['Night'], "text": str(night) + " commits",
          "percent": round((night / sumAll) * 100, 2)},
     ]
     dayOfWeek = [
@@ -301,7 +301,7 @@ def generate_commit_list(tz):
         {"name": translate['Sunday'], "text": str(Sunday) + " commits", "percent": round((Sunday / sum_week) * 100, 2)},
     ]
 
-    string = string + '```text\n' + make_commit_list(one_day) + '\n\n```\n'
+    string = string + '```text\n' + make_commit_list(one_day) + '\n```\n'
 
     if show_days_of_week.lower() in truthy:
         max_element = {
@@ -311,7 +311,7 @@ def generate_commit_list(tz):
         for day in dayOfWeek:
             if day['percent'] > max_element['percent']:
                 max_element = day
-        string = string + '```text\n' + make_commit_list(dayOfWeek) + '\n\n```\n'
+        string = string + '```text\n' + make_commit_list(dayOfWeek) + '\n```\n'
 
     return string
 
@@ -326,8 +326,6 @@ def get_waka_time_stats():
         print("Error With WAKA time API returned " + str(request.status_code) + " Response " + str(request.json()))
     else:
         data = request.json()
-        if showCommit.lower() in truthy:
-            stats = stats + generate_commit_list(tz=data['data']['timezone']) + '\n\n'
 
         if showTimeZone.lower() in truthy or showLanguage.lower() in truthy or showEditors.lower() in truthy or \
                 showProjects.lower() in truthy or showOs.lower() in truthy:
@@ -369,6 +367,9 @@ def get_waka_time_stats():
                 stats = stats + os_list + '\n'
 
             stats += '```\n\n'
+            
+        if showCommit.lower() in truthy:
+            stats = stats + generate_commit_list(tz=data['data']['timezone']) + '\n\n'
 
     return stats
 
@@ -403,8 +404,7 @@ def generate_language_per_repo(result):
             "percent": percent
         })
 
-    title = translate['I Mostly Code in'] % most_language_repo
-    return '**' + title + '** \n\n' + '```text\n' + make_list(data) + '\n\n```\n'
+    return '```text\n' + make_list(data) + '\n```\n'
 
 
 def get_yearly_data():
